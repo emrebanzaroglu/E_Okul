@@ -1,0 +1,36 @@
+﻿@model E_Okul.Entity.Concretes.Branches
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Branş Detayları</h1>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Dersi Veren Öğretmenler</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fotoğraf</th>
+                        <th>Ad Soyad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Teachers)
+                    {
+                        <tr>
+                            <td><img src="@item.Picture" height="100px" width="100px" /></td>
+                            <td>@item.FullName()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List" class="btn btn-outline-primary">Branş listesine geri dön</a>
+</div>

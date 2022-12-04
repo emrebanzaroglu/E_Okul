@@ -10,5 +10,6 @@ namespace E_Okul.Repository.Abstracts
 {
     public interface IBranchRep : IBaseRepository<Branches>
     {
+        Branches FindDetail(int Id);
     }
 }

@@ -3,6 +3,7 @@ using E_Okul.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EOkul.Dal.Migrations
 {
     [DbContext(typeof(EOkulContext))]
-    partial class EOkulContextModelSnapshot : ModelSnapshot
+    [Migration("20221130152742_AddGenderForBaseEntity")]
+    partial class AddGenderForBaseEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,10 +64,6 @@ namespace EOkul.Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Picture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SchoolNo")
                         .HasColumnType("int");
 
@@ -106,10 +105,6 @@ namespace EOkul.Dal.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Picture")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

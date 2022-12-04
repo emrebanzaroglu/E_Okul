@@ -1,0 +1,33 @@
+﻿@model IEnumerable<E_Okul.Entity.Concretes.Teachers>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>Öğretmen Listesi</h1>
+
+
+<a asp-action="Add" class="btn btn-primary">Yeni öğretmen ekle</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>Branşı</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.FullName()</td>
+            <td>@item.Branches.BranchName</td>
+            <td>
+                <a asp-controller="Teacher" asp-action="Update" asp-route-id="@item.Id" class="btn btn-success">Güncelle</a>
+                <a asp-controller="Teacher" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+                <a asp-controller="Teacher" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-info">Detay</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

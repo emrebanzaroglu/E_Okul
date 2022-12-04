@@ -14,5 +14,11 @@ namespace E_Okul.Entity.Concretes
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public char Gender { get; set; }
+        public string Picture { get; set; }
+        public string FullName()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

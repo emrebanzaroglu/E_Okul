@@ -10,5 +10,6 @@ namespace E_Okul.Repository.Abstracts
 {
     public interface IStudentRep:IBaseRepository<Students>
     {
+        Students FindDetail(int Id);
     }
 }

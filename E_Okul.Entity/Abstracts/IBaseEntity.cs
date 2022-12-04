@@ -11,5 +11,7 @@ namespace E_Okul.Entity.Abstracts
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public char Gender { get; set; }
+        public string Picture { get; set; }
     }
 }

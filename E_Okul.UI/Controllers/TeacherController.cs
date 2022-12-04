@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Okul.UI.Controllers
 {
-    public class BranchController : Controller
+    public class TeacherController : Controller
     {
         IUnitOfWork _uow;
-        BranchModel _model;
+        TeacherModel _model;
 
-        public BranchController(IUnitOfWork uow, BranchModel model)
+        public TeacherController(IUnitOfWork uow,TeacherModel model)
         {
             _uow = uow;
             _model = model;
@@ -18,16 +18,18 @@ namespace E_Okul.UI.Controllers
 
         public IActionResult List()
         {
-            return View(_uow._branchRep.List());
+            var tlist = _uow._teacherRep.List();
+            return View(tlist);
         }
         public IActionResult Detail(int Id)
         {
-            var p = _uow._branchRep.FindDetail(Id);
-            return View(p);
+            var t = _uow._teacherRep.FindDetail(Id);
+            return View(t);
         }
+
         public IActionResult Add()
         {
-            _model.Branches = new Branches();
+            _model.Teachers = new Teachers();
             _model.Head = "Yeni Giriş";
             _model.Text = "Kaydet";
             _model.Cls = "btn btn-primary";
@@ -35,16 +37,16 @@ namespace E_Okul.UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(BranchModel model)
+        public IActionResult Add(TeacherModel model)
         {
-            _uow._branchRep.Add(model.Branches);
+            _uow._teacherRep.Add(model.Teachers);
             _uow.Commit();
             return RedirectToAction("List");
         }
 
         public IActionResult Update(int Id)
         {
-            _model.Branches = _uow._branchRep.Find(Id);
+            _model.Teachers = _uow._teacherRep.Find(Id);
             _model.Head = "Güncelleme";
             _model.Text = "Güncelle";
             _model.Cls = "btn btn-success";
@@ -52,24 +54,24 @@ namespace E_Okul.UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(BranchModel model)
+        public IActionResult Edit(TeacherModel model)
         {
-            _uow._branchRep.Update(model.Branches);
+            _uow._teacherRep.Update(model.Teachers);
             _uow.Commit();
             return RedirectToAction("List");
         }
         public IActionResult Delete(int Id)
         {
-            _model.Branches = _uow._branchRep.Find(Id);
+            _model.Teachers = _uow._teacherRep.Find(Id);
             _model.Head = "Silme";
             _model.Text = "Sil";
             _model.Cls = "btn btn-danger";
             return View("Crud", _model);
         }
         [HttpPost]
-        public IActionResult Delete(BranchModel model)
+        public IActionResult Delete(TeacherModel model)
         {
-            _uow._branchRep.Delete(model.Branches.Id);
+            _uow._teacherRep.Delete(model.Teachers.Id);
             _uow.Commit();
             return RedirectToAction("List");
         }

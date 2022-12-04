@@ -2,6 +2,7 @@
 using E_Okul.Dal;
 using E_Okul.Entity.Concretes;
 using E_Okul.Repository.Abstracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -15,6 +16,10 @@ namespace E_Okul.Repository.Concretes
     {
         public StudentRep(EOkulContext db) : base(db)
         {
+        }
+        public Students FindDetail(int Id)
+        {
+            return Set().Include(x => x.Branches).ThenInclude(x => x.Teachers).FirstOrDefault(x => x.Id == Id);
         }
     }
 }

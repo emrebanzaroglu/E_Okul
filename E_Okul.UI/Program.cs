@@ -17,6 +17,7 @@ builder.Services.AddScoped<IBranchRep, BranchRep<Branches>>();
 builder.Services.AddScoped<ITeacherRep, TeacherRep<Teachers>>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<BranchModel>();
+builder.Services.AddScoped<TeacherModel>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
