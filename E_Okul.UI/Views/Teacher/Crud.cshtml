@@ -28,9 +28,14 @@
             </div>
             <br />
             <div class="form-group">
-                <label asp-for="Teachers.Branches.BranchName" class="control-label"></label>
-                <input type="radio" asp-for="Teachers.Branches.BranchName" class="form-control" />
-                <span asp-validation-for="Teachers.Branches.BranchName" class="text-danger"></span>
+                <label asp-for="Teachers.BranchId" class="control-label"></label>
+                <select asp-for="Teachers.BranchId" class="form-kontrol" name="Teachers.BranchId">
+                    @foreach (var item in Model.Branches)
+                    {
+                        <option value="@item.Id">@item.BranchName</option>
+                    }
+                </select>
+                <span asp-validation-for="Teachers.Branches.Id" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">

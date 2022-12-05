@@ -12,6 +12,8 @@ namespace E_Okul.Entity.Concretes
     {
         public string Mail { get; set; }
         public string Password { get; set; }
+        public int BranchId { get; set; }
+
         [ForeignKey("BranchId")]
         public Branches Branches { get; set; }
     }

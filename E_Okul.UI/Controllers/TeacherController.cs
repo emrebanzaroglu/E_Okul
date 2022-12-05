@@ -1,4 +1,5 @@
-﻿using E_Okul.Entity.Concretes;
+﻿using E_Okul.Dto;
+using E_Okul.Entity.Concretes;
 using E_Okul.UI.Models;
 using E_Okul.Uow;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,12 @@ namespace E_Okul.UI.Controllers
 
         public IActionResult List()
         {
-            var tlist = _uow._teacherRep.List();
+            var tlist = _uow._teacherRep.Set().Select(x=>new TeacherDTO
+            {
+                Id= x.Id,
+                FullName= x.FullName(),
+                BranchName = x.Branches.BranchName
+            }).ToList();
             return View(tlist);
         }
         public IActionResult Detail(int Id)

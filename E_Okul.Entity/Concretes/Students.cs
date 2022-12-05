@@ -11,6 +11,8 @@ namespace E_Okul.Entity.Concretes
     {
         public int SchoolNo { get; set; }
         public int TCNo { get; set; }
+        public int BranchId { get; set; }
+
         [ForeignKey("BranchId")]
         public Branches Branches { get; set; }
     }

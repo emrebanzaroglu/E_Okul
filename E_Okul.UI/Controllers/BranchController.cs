@@ -52,7 +52,7 @@ namespace E_Okul.UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(BranchModel model)
+        public IActionResult Update(BranchModel model)
         {
             _uow._branchRep.Update(model.Branches);
             _uow.Commit();

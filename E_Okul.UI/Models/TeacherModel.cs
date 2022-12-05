@@ -11,5 +11,6 @@ namespace E_Okul.UI.Models
         public string Head { get; set; }
         public string Text { get; set; }
         public string Cls { get; set; }
+        public List<Branches> Branches { get; set; }
     }
 }
