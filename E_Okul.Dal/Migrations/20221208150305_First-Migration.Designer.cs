@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EOkul.Dal.Migrations
 {
     [DbContext(typeof(EOkulContext))]
-    [Migration("20221203153140_AddPictureForBaseEntity")]
-    partial class AddPictureForBaseEntity
+    [Migration("20221208150305_First-Migration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,23 @@ namespace EOkul.Dal.Migrations
                     b.ToTable("Branches");
                 });
 
+            modelBuilder.Entity("E_Okul.Entity.Concretes.Genders", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("GenderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genders");
+                });
+
             modelBuilder.Entity("E_Okul.Entity.Concretes.Students", b =>
                 {
                     b.Property<int>("Id")
@@ -56,16 +73,14 @@ namespace EOkul.Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                    b.Property<int>("GenderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SchoolNo")
@@ -77,6 +92,8 @@ namespace EOkul.Dal.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("GenderId");
 
                     b.ToTable("Students");
                 });
@@ -96,9 +113,8 @@ namespace EOkul.Dal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                    b.Property<int>("GenderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -113,12 +129,13 @@ namespace EOkul.Dal.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("GenderId");
 
                     b.ToTable("Teachers");
                 });
@@ -131,7 +148,15 @@ namespace EOkul.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("E_Okul.Entity.Concretes.Genders", "Genders")
+                        .WithMany("Students")
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Branches");
+
+                    b.Navigation("Genders");
                 });
 
             modelBuilder.Entity("E_Okul.Entity.Concretes.Teachers", b =>
@@ -142,10 +167,25 @@ namespace EOkul.Dal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("E_Okul.Entity.Concretes.Genders", "Genders")
+                        .WithMany("Teachers")
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Branches");
+
+                    b.Navigation("Genders");
                 });
 
             modelBuilder.Entity("E_Okul.Entity.Concretes.Branches", b =>
+                {
+                    b.Navigation("Students");
+
+                    b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("E_Okul.Entity.Concretes.Genders", b =>
                 {
                     b.Navigation("Students");
 

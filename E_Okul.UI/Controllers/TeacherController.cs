@@ -1,8 +1,10 @@
-﻿using E_Okul.Dto;
+﻿using E_Okul.Dal;
+using E_Okul.Dto;
 using E_Okul.Entity.Concretes;
 using E_Okul.UI.Models;
 using E_Okul.Uow;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Okul.UI.Controllers
 {
@@ -11,7 +13,7 @@ namespace E_Okul.UI.Controllers
         IUnitOfWork _uow;
         TeacherModel _model;
 
-        public TeacherController(IUnitOfWork uow,TeacherModel model)
+        public TeacherController(EOkulContext db,IUnitOfWork uow,TeacherModel model)
         {
             _uow = uow;
             _model = model;
@@ -23,7 +25,10 @@ namespace E_Okul.UI.Controllers
             {
                 Id= x.Id,
                 FullName= x.FullName(),
-                BranchName = x.Branches.BranchName
+                BranchName = x.Branches.BranchName,
+                Gender = x.Gender,
+                Mail = x.Mail,
+                Picture = x.Picture
             }).ToList();
             return View(tlist);
         }
@@ -35,10 +40,16 @@ namespace E_Okul.UI.Controllers
 
         public IActionResult Add()
         {
+            ViewBag.Gender = new Dictionary<string, string>()
+            {
+                {"Erkek","Erkek"},
+                {"Kadın","Kadın" }
+            };
             _model.Teachers = new Teachers();
             _model.Head = "Yeni Giriş";
             _model.Text = "Kaydet";
             _model.Cls = "btn btn-primary";
+            _model.Branches = _uow._branchRep.List();
             return View("Crud", _model);
         }
 
@@ -56,6 +67,7 @@ namespace E_Okul.UI.Controllers
             _model.Head = "Güncelleme";
             _model.Text = "Güncelle";
             _model.Cls = "btn btn-success";
+            _model.Branches = _uow._branchRep.List();
             return View("Crud", _model);
         }
 
@@ -72,6 +84,7 @@ namespace E_Okul.UI.Controllers
             _model.Head = "Silme";
             _model.Text = "Sil";
             _model.Cls = "btn btn-danger";
+            _model.Branches = _uow._branchRep.List();
             return View("Crud", _model);
         }
         [HttpPost]

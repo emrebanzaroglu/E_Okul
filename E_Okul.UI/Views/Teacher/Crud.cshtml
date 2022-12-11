@@ -16,27 +16,72 @@
                 <input asp-for="Teachers.Id" type="hidden" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Teachers.FirstName" class="control-label"></label>
+                <label asp-for="Teachers.FirstName" class="control-label">Ad :</label>
                 <input asp-for="Teachers.FirstName" class="form-control" />
                 <span asp-validation-for="Teachers.FirstName" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
-                <label asp-for="Teachers.LastName" class="control-label"></label>
+                <label asp-for="Teachers.LastName" class="control-label">Soyad :</label>
                 <input asp-for="Teachers.LastName" class="form-control" />
                 <span asp-validation-for="Teachers.LastName" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
-                <label asp-for="Teachers.BranchId" class="control-label"></label>
+                <label asp-for="Teachers.Mail" class="control-label">Mail :</label>
+                <input asp-for="Teachers.Mail" class="form-control" />
+                <span asp-validation-for="Teachers.Mail" class="text-danger"></span>
+            </div>
+            <br />
+
+
+            <div class="form-group">
+                <span>Cinsiyet :</span>
+                @foreach (var item in ViewBag.Gender as Dictionary<string, string>)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="@(item.Value)Gender" asp-for="Teachers.Gender" value="@item.Value">
+                        <label class="form-check-label" asp-for="Teachers.Gender" for="@(item.Value)Gender">
+                            @item.Key
+                        </label>
+                    </div>
+                }
+                <span class="text-danger" asp-validation-for="Teachers.Gender"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="Teachers.BranchId" class="control-label">Branş Seçiniz :</label>
                 <select asp-for="Teachers.BranchId" class="form-kontrol" name="Teachers.BranchId">
                     @foreach (var item in Model.Branches)
                     {
                         <option value="@item.Id">@item.BranchName</option>
                     }
                 </select>
-                <span asp-validation-for="Teachers.Branches.Id" class="text-danger"></span>
+                <span asp-validation-for="Teachers.BranchId" class="text-danger"></span>
             </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Teachers.Password" class="control-label">Şifre :</label>
+                <input type="password" asp-for="Teachers.Password" class="form-control" />
+                <span asp-validation-for="Teachers.Password" class="text-danger"></span>
+            </div>
+            <br />
+
+
+            @*
+            <div class="form-group">
+            <label asp-for="Teachers.Gender" class="control-label">Cinsiyet :</label>
+            @foreach (var item in Model.Teachers)
+            {
+            @Html.RadioButtonFor(expression:model=>model.Gender, item.)
+            }
+            <span asp-validation-for="Teachers.Gender" class="text-danger"></span>
+            </div>*@
+
+
+
             <br />
             <div class="form-group">
                 <input type="submit" value="@Model.Text" class="@Model.Cls" />
@@ -50,5 +95,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

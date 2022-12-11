@@ -5,7 +5,7 @@
 namespace EOkul.Dal.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateFirstMigration : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,19 @@ namespace EOkul.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Genders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GenderName = table.Column<string>(type: "nvarchar(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Genders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -32,8 +45,10 @@ namespace EOkul.Dal.Migrations
                     SchoolNo = table.Column<int>(type: "int", nullable: false),
                     TCNo = table.Column<int>(type: "int", nullable: false),
                     BranchId = table.Column<int>(type: "int", nullable: false),
+                    GenderId = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,7 +58,13 @@ namespace EOkul.Dal.Migrations
                         column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Students_Genders_GenderId",
+                        column: x => x.GenderId,
+                        principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,8 +76,10 @@ namespace EOkul.Dal.Migrations
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BranchId = table.Column<int>(type: "int", nullable: false),
+                    GenderId = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,7 +89,13 @@ namespace EOkul.Dal.Migrations
                         column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Teachers_Genders_GenderId",
+                        column: x => x.GenderId,
+                        principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -75,9 +104,19 @@ namespace EOkul.Dal.Migrations
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_GenderId",
+                table: "Students",
+                column: "GenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Teachers_BranchId",
                 table: "Teachers",
                 column: "BranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teachers_GenderId",
+                table: "Teachers",
+                column: "GenderId");
         }
 
         /// <inheritdoc />
@@ -91,6 +130,9 @@ namespace EOkul.Dal.Migrations
 
             migrationBuilder.DropTable(
                 name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "Genders");
         }
     }
 }

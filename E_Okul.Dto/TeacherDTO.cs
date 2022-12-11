@@ -11,5 +11,8 @@ namespace E_Okul.Dto
         public int Id { get; set; }
         public string FullName { get; set; }
         public string BranchName { get; set; }
+        public string Gender { get; set; }
+        public string Mail { get; set; }
+        public string Picture { get; set; }
     }
 }

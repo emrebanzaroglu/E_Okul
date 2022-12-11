@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EOkul.Dal.Migrations
 {
     [DbContext(typeof(EOkulContext))]
-    [Migration("20221205205519_AddBranchIdForStudentsAndTeachers")]
-    partial class AddBranchIdForStudentsAndTeachers
+    [Migration("20221209135806_DeleteGenderTable")]
+    partial class DeleteGenderTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,14 +58,13 @@ namespace EOkul.Dal.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SchoolNo")
@@ -98,7 +97,7 @@ namespace EOkul.Dal.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -113,7 +112,6 @@ namespace EOkul.Dal.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

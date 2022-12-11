@@ -17,4 +17,5 @@ namespace E_Okul.Entity.Concretes
         [ForeignKey("BranchId")]
         public Branches Branches { get; set; }
     }
+
 }
