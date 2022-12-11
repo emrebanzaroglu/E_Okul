@@ -10,11 +10,13 @@ namespace E_Okul.UI.Controllers
 {
     public class TeacherController : Controller
     {
+        EOkulContext _db;
         IUnitOfWork _uow;
         TeacherModel _model;
 
         public TeacherController(EOkulContext db,IUnitOfWork uow,TeacherModel model)
         {
+            _db = db;
             _uow = uow;
             _model = model;
         }
@@ -61,6 +63,8 @@ namespace E_Okul.UI.Controllers
             return RedirectToAction("List");
         }
 
+        [HttpGet]
+
         public IActionResult Update(int Id)
         {
             _model.Teachers = _uow._teacherRep.Find(Id);
@@ -72,25 +76,18 @@ namespace E_Okul.UI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(TeacherModel model)
+        public IActionResult Update(TeacherModel model)
         {
             _uow._teacherRep.Update(model.Teachers);
             _uow.Commit();
             return RedirectToAction("List");
         }
-        public IActionResult Delete(int Id)
+
+        public IActionResult Delete(int id, TeacherModel model)
         {
-            _model.Teachers = _uow._teacherRep.Find(Id);
-            _model.Head = "Silme";
-            _model.Text = "Sil";
-            _model.Cls = "btn btn-danger";
+            var teacher = _db.Teachers.Find(id);
+            _db.Teachers.Remove(teacher);
             _model.Branches = _uow._branchRep.List();
-            return View("Crud", _model);
-        }
-        [HttpPost]
-        public IActionResult Delete(TeacherModel model)
-        {
-            _uow._teacherRep.Delete(model.Teachers.Id);
             _uow.Commit();
             return RedirectToAction("List");
         }
