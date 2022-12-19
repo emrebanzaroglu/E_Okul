@@ -67,6 +67,11 @@ namespace E_Okul.UI.Controllers
 
         public IActionResult Update(int Id)
         {
+            ViewBag.Gender = new Dictionary<string, string>()
+            {
+                {"Erkek","Erkek"},
+                {"Kadın","Kadın" }
+            };
             _model.Teachers = _uow._teacherRep.Find(Id);
             _model.Head = "Güncelleme";
             _model.Text = "Güncelle";

@@ -1,4 +1,5 @@
-﻿using E_Okul.Dto;
+﻿using E_Okul.Dal;
+using E_Okul.Dto;
 using E_Okul.Entity.Concretes;
 using E_Okul.UI.Models;
 using E_Okul.Uow;
@@ -8,13 +9,15 @@ namespace E_Okul.UI.Controllers
 {
     public class StudentController : Controller
     {
+        EOkulContext _db;
         IUnitOfWork _uow;
         StudentModel _model;
 
-        public StudentController(StudentModel model, IUnitOfWork uow)
+        public StudentController(StudentModel model, IUnitOfWork uow, EOkulContext db)
         {
             _model = model;
             _uow = uow;
+            _db = db;
         }
 
         public IActionResult List()
@@ -26,9 +29,9 @@ namespace E_Okul.UI.Controllers
                 Gender=x.Gender,
                 Picture=x.Picture,
                 TCNo=Convert.ToInt32(x.TCNo),
-                SchoolNo=Convert.ToInt32(x.SchoolNo),
+                SchoolNo=Convert.ToInt32(x.SchoolNo)
             }).ToList();
-            return View();
+            return View(slist);
         }
         public IActionResult Detail(int Id)
         {
@@ -89,18 +92,10 @@ namespace E_Okul.UI.Controllers
         [HttpGet]
         public IActionResult Delete(int Id)
         {
-            _model.Students = _uow._studentRep.Find(Id);
-            _model.Head = "Silme";
-            _model.Text = "Sil";
-            _model.Cls = "btn btn-danger";
+            var student = _db.Students.Find(Id);
+            _db.Students.Remove(student);
             _model.Branches = _uow._branchRep.List();
             _model.Teachers = _uow._teacherRep.List();
-            return View("Crud", _model);
-        }
-        [HttpPost]
-        public IActionResult Delete(StudentModel model)
-        {
-            _uow._studentRep.Delete(model.Students.Id);
             _uow.Commit();
             return RedirectToAction("List");
         }

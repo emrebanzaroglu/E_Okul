@@ -1,4 +1,5 @@
-﻿using E_Okul.Entity.Concretes;
+﻿using E_Okul.Dal;
+using E_Okul.Entity.Concretes;
 using E_Okul.UI.Models;
 using E_Okul.Uow;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +8,15 @@ namespace E_Okul.UI.Controllers
 {
     public class BranchController : Controller
     {
+        EOkulContext _db;
         IUnitOfWork _uow;
         BranchModel _model;
 
-        public BranchController(IUnitOfWork uow, BranchModel model)
+        public BranchController(IUnitOfWork uow, BranchModel model, EOkulContext db)
         {
             _uow = uow;
             _model = model;
+            _db = db;
         }
 
         public IActionResult List()
@@ -60,16 +63,8 @@ namespace E_Okul.UI.Controllers
         }
         public IActionResult Delete(int Id)
         {
-            _model.Branches = _uow._branchRep.Find(Id);
-            _model.Head = "Silme";
-            _model.Text = "Sil";
-            _model.Cls = "btn btn-danger";
-            return View("Crud", _model);
-        }
-        [HttpPost]
-        public IActionResult Delete(BranchModel model)
-        {
-            _uow._branchRep.Delete(model.Branches.Id);
+            var braches = _db.Branches.Find(Id);
+            _db.Branches.Remove(braches);
             _uow.Commit();
             return RedirectToAction("List");
         }

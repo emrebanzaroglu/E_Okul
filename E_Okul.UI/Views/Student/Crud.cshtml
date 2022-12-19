@@ -1,0 +1,89 @@
+﻿@model E_Okul.UI.Models.StudentModel
+
+@{
+    ViewData["Title"] = "Crud";
+}
+
+<h1>@Model.Head</h1>
+
+<h4>Öğretmenler</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Students.Id" type="hidden" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Students.FirstName" class="control-label">Ad :</label>
+                <input asp-for="Students.FirstName" class="form-control" />
+                <span asp-validation-for="Students.FirstName" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Students.LastName" class="control-label">Soyad :</label>
+                <input asp-for="Students.LastName" class="form-control" />
+                <span asp-validation-for="Students.LastName" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Students.TCNo" class="control-label">TC Kimlik Numarası :</label>
+                <input asp-for="Students.TCNo" class="form-control" />
+                <span asp-validation-for="Students.TCNo" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Students.SchoolNo" class="control-label">Okul Numarası :</label>
+                <input asp-for="Students.SchoolNo" class="form-control" />
+                <span asp-validation-for="Students.SchoolNo" class="text-danger"></span>
+            </div>
+            <br />
+
+
+            <div class="form-group">
+                <span>Cinsiyet :</span>
+                @foreach (var item in ViewBag.Gender as Dictionary<string, string>)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="@(item.Value)Gender" asp-for="Students.Gender" value="@item.Value">
+                        <label class="form-check-label" asp-for="Students.Gender" for="@(item.Value)Gender">
+                            @item.Key
+                        </label>
+                    </div>
+                }
+                <span class="text-danger" asp-validation-for="Students.Gender"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="Students.BranchId" class="control-label">Branş Seçiniz :</label>
+                <select asp-for="Students.BranchId" class="form-kontrol" name="Students.BranchId">
+                    @foreach (var item in Model.Branches)
+                    {
+                        <option value="@item.Id">@item.BranchName</option>
+                    }
+                </select>
+                <span asp-validation-for="Students.BranchId" class="text-danger"></span>
+            </div>
+            <br />
+
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="@Model.Text" class="@Model.Cls" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <p>Öğrenci listesini görüntülemek için <a asp-action="List">buraya</a> tıklayınız.</p>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
